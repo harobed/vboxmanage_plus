@@ -13,7 +13,7 @@ Location: *(?P<location>.*?)$.*?""",
 )
 
 def parse_vbox_manage_list_hdd(data):
-    return [m.groupdict() for m in re_parse_vbox_manage_list_hdd.finditer(str(data))]
+    return [m.groupdict() for m in re_parse_vbox_manage_list_hdd.finditer(data.decode('utf8'))]
 
 
 def remove_orphan_hdds():
