@@ -7,4 +7,8 @@ setuptools.setup(
     author_email="contact@stephane-klein.info",
     packages=setuptools.find_packages(),
     install_requires=[],
+    entry_points="""
+    [console_scripts]
+    vboxmanage_plus = vboxmanage_wrapper:cli
+    """
 )

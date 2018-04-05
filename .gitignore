@@ -1,2 +1,3 @@
 vboxmanage_wrapper/__pycache__/
 .pytest_cache/
+vboxmanage_wrapper.egg-info/
