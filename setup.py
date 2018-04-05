@@ -1,7 +1,7 @@
 import setuptools
 
 setuptools.setup(
-    name="vboxmanage-wrapper",
+    name="vboxmanage-plus",
     version="0.1.0",
     author="Stéphane Klein",
     author_email="contact@stephane-klein.info",
@@ -9,6 +9,6 @@ setuptools.setup(
     install_requires=[],
     entry_points="""
     [console_scripts]
-    vboxmanage_plus = vboxmanage_wrapper:cli
+    vboxmanage_plus = vboxmanage_plus:cli
     """
 )

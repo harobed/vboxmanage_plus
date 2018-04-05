@@ -1,4 +1,4 @@
-from vboxmanage_wrapper import parse_vbox_manage_list_hdd
+from vboxmanage_plus import parse_vbox_manage_list_hdd
 
 def test_parse_vboxmanage_list_hdd():
     # VBoxManage list hdds
