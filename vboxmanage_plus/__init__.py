@@ -67,7 +67,6 @@ def cli():
     hdds_orphaned_list_parser = orphaned_list_subparsers.add_parser("hdds")
 
     args = root_parser.parse_args()
-    print(args)
 
     if args.root_subparsers == 'list':
         if args.list_subparsers == 'orphaned':
