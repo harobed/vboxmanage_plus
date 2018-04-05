@@ -77,7 +77,9 @@ def cli():
     elif args.root_subparsers == 'remove':
         if args.remove_subparsers == 'orphaned':
             if args.orphaned_remove_subparsers == 'hdds':
-                remove_orphan_hdds()
+                for hdd in list_orphan_hdds():
+                    print("Remove %s - %s" % (hdd['uuid'], hdd['location']))
+                    remove_hdd(hdd['uuid'])
 
 
 if __name__ == '__main__':
