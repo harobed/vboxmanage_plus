@@ -37,7 +37,7 @@ def list_orphan_hdds():
     ]
 
 
-def remove_rdd(uuid):
+def remove_hdd(uuid):
     print("Remove medium %s" % uuid)
     p = subprocess.Popen(
         "VBoxManage closemedium disk %s --delete" % uuid,
