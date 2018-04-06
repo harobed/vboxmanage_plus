@@ -29,6 +29,18 @@ Remove medium 8ba1314e-0c19-4efc-9215-28f4ef7fbd7c
 0%...10%...20%...30%...40%...50%...60%...70%...80%...90%...100%
 ```
 
+Execute this command to list vms:
+
+```
+$ vboxmanage_plus list vms
+```
+
+Execute this command to remove vms:
+
+```
+$ vboxmanage_plus remove vms
+```
+
 
 ## Execute tests
 
