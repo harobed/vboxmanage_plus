@@ -1,5 +1,11 @@
 # Virtualbox VBoxManage helper
 
+Install with:
+
+```
+$ pip install https://github.com/harobed/vboxmanage_plus/archive/master.zip
+```
+
 Execute this command to list all Virtualbox orphaned hdds:
 
 ```
