@@ -46,6 +46,49 @@ def remove_hdd(uuid):
     p.communicate()
     return p.returncode
 
+
+def parse_vbox_manage_list_vms(data):
+    if data.decode("utf8").strip() == '':
+        return []
+
+    return [
+        {
+            "uuid": item.split(" ")[1].lstrip('{').rstrip('}')
+        }
+        for item in data.decode("utf8").strip().split("\n")
+    ]
+
+def list_vms():
+    p = subprocess.Popen(
+        "VBoxManage list vms",
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
+    out, err = p.communicate()
+    errcode = p.returncode
+
+    return parse_vbox_manage_list_vms(out)
+
+
+def destroy_vms(uuid):
+    print("Destroy vms %s" % uuid)
+    p = subprocess.Popen(
+        "vboxmanage controlvm %s poweroff" % uuid,
+        shell=True
+    )
+    p.communicate()
+    p = subprocess.Popen(
+        "vboxmanage unregistervm %s --delete" % uuid,
+        shell=True
+    )
+    p.communicate()
+
+
+def remove_vms():
+    for vms in list_vms():
+        destroy_vms(vms['uuid'])
+
 def cli():
     root_parser = argparse.ArgumentParser()
     root_subparsers = root_parser.add_subparsers(dest="root_subparsers")
@@ -66,6 +109,12 @@ def cli():
 
     hdds_orphaned_list_parser = orphaned_list_subparsers.add_parser("hdds")
 
+    vms_remove_parser = remove_subparsers.add_parser("vms")
+    vms_remove_subparsers = vms_remove_parser.add_subparsers(dest="vms_remove_subparsers")
+
+    vms_list_parser = list_subparsers.add_parser("vms")
+    vms_list_subparsers = vms_list_parser.add_subparsers(dest="vms_list_subparsers")
+
     args = root_parser.parse_args()
 
     if args.root_subparsers == 'list':
@@ -73,6 +122,10 @@ def cli():
             if args.orphaned_list_subparsers == 'hdds':
                 for hdd in list_orphan_hdds():
                     print("%s - %s" % (hdd['uuid'], hdd['location']))
+        elif args.list_subparsers == 'vms':
+            for vms in list_vms():
+                print("%s" % vms['uuid'])
+
 
     elif args.root_subparsers == 'remove':
         if args.remove_subparsers == 'orphaned':
@@ -80,6 +133,8 @@ def cli():
                 for hdd in list_orphan_hdds():
                     print("Remove %s - %s" % (hdd['uuid'], hdd['location']))
                     remove_hdd(hdd['uuid'])
+        elif args.remove_subparsers == 'vms':
+            remove_vms()
 
 
 if __name__ == '__main__':

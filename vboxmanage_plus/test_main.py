@@ -1,9 +1,9 @@
-from vboxmanage_plus import parse_vbox_manage_list_hdd
+from vboxmanage_plus import parse_vbox_manage_list_hdd, parse_vbox_manage_list_vms
 
 def test_parse_vboxmanage_list_hdd():
     # VBoxManage list hdds
 
-    output = """
+    output = b"""
 UUID:           49ab2c4d-9774-45ff-8501-1cb49d320b05
 Parent UUID:    base
 State:          inaccessible
@@ -67,3 +67,19 @@ Encryption:     disabled
     assert result[2]['uuid'] == '9114677b-33ee-4b18-9a3a-9f8d014877f4'
     assert result[2]['state'] == 'locked write'
     assert result[2]['location'] == '/home/gitlab-runner/VirtualBox VMs/baremetal-pxe-environment_pxe_server_1522934644737_41281/ubuntu-xenial-16.04-cloudimg.vdi'
+
+
+def test_parse_vboxmanage_list_vms():
+    # VBoxManage list vms
+
+    output = b"""
+"baremetal-pxe-environment_pxe_server_1522934644737_41281" {a41545d5-52a1-4bb2-b407-ca4237a59200}
+"baremetal-pxe-environment_pxe_server_1522996406806_13965" {27418214-7e38-4a1a-9971-5bfe4c06c65a}
+"baremetal-pxe-environment_pxe_server_1523033871725_26053" {41dd15cb-01ab-4236-a605-4f826dc7b0d9}
+    """
+
+    result = parse_vbox_manage_list_vms(output)
+
+    assert result[0]['uuid'] == 'a41545d5-52a1-4bb2-b407-ca4237a59200'
+    assert result[1]['uuid'] == '27418214-7e38-4a1a-9971-5bfe4c06c65a'
+    assert result[2]['uuid'] == '41dd15cb-01ab-4236-a605-4f826dc7b0d9'
